@@ -108,10 +108,7 @@ void ExceptionHandler(ExceptionType which) {
 				do {
 					// Invoke ReadMem to read the contents from user space
 
-					machine->ReadMem(vaddr,    // Location to be read
-									sizeof(char),      // Size of data to be read
-									(int*)(buf+size)   // where the read contents 
-									);                 // are stored
+					machine->ReadMem(vaddr, sizeof(char), (int*)(buf+size));
 
 					// Compute next address
 					vaddr+=sizeof(char);    size++;
@@ -140,10 +137,7 @@ void ExceptionHandler(ExceptionType which) {
 				do{
 					// Invoke ReadMem to read the contents from user space
 
-					machine->ReadMem(vaddr,    // Location to be read
-									sizeof(char),      // Size of data to be read
-									(int*)(buf+size)   // where the read contents 
-									);                 // are stored
+					machine->ReadMem(vaddr, sizeof(char), (int*)(buf+size));
 
 					// Compute next address
 					vaddr+=sizeof(char);    size++;
@@ -175,10 +169,7 @@ void ExceptionHandler(ExceptionType which) {
 				do{
 					// Invoke ReadMem to read the contents from user space
 
-					machine->ReadMem(vaddr,    // Location to be read
-									sizeof(char),      // Size of data to be read
-									(int*)(buf+sizeread)   // where the read contents 
-									);                 // are stored
+					machine->ReadMem(vaddr, sizeof(char), (int*)(buf+sizeread)); 
 
 					// Compute next address
 					vaddr+=sizeof(char);    
