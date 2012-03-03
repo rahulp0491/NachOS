@@ -111,7 +111,8 @@ void ExceptionHandler(ExceptionType which) {
 					machine->ReadMem(vaddr, sizeof(char), (int*)(buf+size));
 
 					// Compute next address
-					vaddr+=sizeof(char);    size++;
+					vaddr+=sizeof(char);
+					size++;
 
 				} while( size < (BUF_SIZE - 1) && buf[size-1] != '\0');
 
