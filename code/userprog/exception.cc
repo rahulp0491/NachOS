@@ -80,8 +80,7 @@ void updatePC(){
 		machine->WriteRegister(NextPCReg, nextpc);
 	}
 
-void ExceptionHandler(ExceptionType which)
-{
+void ExceptionHandler(ExceptionType which) {
 	int type = machine->ReadRegister(2);
 
 	switch(which) {
@@ -125,8 +124,9 @@ void ExceptionHandler(ExceptionType which)
 				printf("%s", buf);
 				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
+				DEBUG('a', "PC updated \n");
 			}
-			break; // SC_Print
+			break;
 
 			case SC_Open:{
 				DEBUG('a', "Open() system call invoked \n");
@@ -155,18 +155,20 @@ void ExceptionHandler(ExceptionType which)
 
 				id = open(buf, O_CREAT | O_RDWR, S_IRWXU | S_IRWXG | S_IRWXO);
 				machine->WriteRegister(2, id);
+				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
+				DEBUG('a', "PC updated \n");
 			}
 			break;
 
 			case SC_Write:{
-				//printf("Write called\n");
+				DEBUG('a', "Write() system call invoked \n");
 				OpenFileId id;
 				id = machine->ReadRegister(6);
 				int size = machine->ReadRegister(5);
 				int vaddr = machine->ReadRegister(4);
 				
-				int size_read = 0;
+				int sizeread = 0;
 				char buf[BUF_SIZE];
 				buf[BUF_SIZE - 1] = '\0';               // For safety.
 
@@ -175,24 +177,26 @@ void ExceptionHandler(ExceptionType which)
 
 					machine->ReadMem(vaddr,    // Location to be read
 									sizeof(char),      // Size of data to be read
-									(int*)(buf+size_read)   // where the read contents 
+									(int*)(buf+sizeread)   // where the read contents 
 									);                 // are stored
 
 					// Compute next address
 					vaddr+=sizeof(char);    
-					size_read++;
+					sizeread++;
 
-				} while( size < (BUF_SIZE - 1) && size_read < size);
+				} while( size < (BUF_SIZE - 1) && sizeread < size);
 
 				size--;
 				DEBUG('a', "Size of string = %d", size);
 				write(id, buf, size);
+				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
-				//printf("Write finished %s\n", buf);
+				DEBUG('a', "PC updated \n");
 			}
-					break;
-					
+			break;
+			
 			case SC_Read: {
+				DEBUG('a', "Read() system call invoked \n");
 				OpenFileId id;
 				id = machine->ReadRegister(6);
 				int size = machine->ReadRegister(5);
@@ -201,28 +205,32 @@ void ExceptionHandler(ExceptionType which)
 				char buf[BUF_SIZE];
 				read(id, buf, size);
 					
-				int size_written = 0;
+				int sizewritten = 0;
 
 				do{
 					// Invoke ReadMem to read the contents from user space
 
-					machine->WriteMem(vaddr, sizeof(char),*(buf + size_written));
+					machine->WriteMem(vaddr, sizeof(char),*(buf + sizewritten));
 
 					// Compute next address
 					vaddr+=sizeof(char);    
-					size_written++;
+					sizewritten++;
 
-				} while( size < (BUF_SIZE - 1) && size_written < size);
+				} while( size < (BUF_SIZE - 1) && sizewritten < size);
 				DEBUG('a', "Size of string = %d", size);
+				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
+				DEBUG('a', "PC updated \n");
 			}
 			break;
 			
 			case SC_Close:{
+				DEBUG('a', "Close() system call invoked \n");
 				OpenFileId id;
 				id = machine->ReadRegister(4);
 				close(id);
 				updatePC();
+				DEBUG('a', "PC updated \n");
 			}
 			break;
 			
