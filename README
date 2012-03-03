@@ -1,0 +1,111 @@
+General Information
+===================
+The cross compilers are installed in all systems in 
+Software Systems Laboratory.
+
+The cross compilers are needed if you are installing
+Nachos in your home computers.
+
+On a Red-Hat machine, they can be installed as follows
+	rpm -ivh <file-name>.rpm
+
+On Debian machines, you can use the .deb files by issuing
+	dpkg -i <file-name>.deb
+
+Introduction to Nachos
+======================
+Nachos runs on a simlated machine which understands MIPS.
+
+Since we have a simulator, one might thing that the kernel is also running on
+the simulator. But it is not so. In a linux system the Nachos kernel (that the
+student writes) as well as the simulator is a user level process.
+The simulator reads in the user test program executable as the data and
+interprets them, simulating their execution on a real MIPS machine.
+The user programs are written in a subset of C. 
+
+Nachos executable contains both the simulator and the kernel. The simulated
+machine's physical memory and registers are the data structures in Nachos
+program. Thus the Nachos and the simulator runs side-by-side. 
+
+Whenever an interrupt or a system call occurs in the user program, the 
+simulator handles the control over to Nachos kernel.
+
+Unlike the ordinary OS, user programs (executing in Nachos Kernel) will
+execute as multiple independent threads, each having a separate stack. Thread
+switching happens via a call to low-level assembly code called SWITCH written
+in threads/switch.s
+
+Working with Nachos
+===================
+To compile Nachos 
+1. Go to code/
+2. Type make
+
+You can make the executables for the files in code/test by doing "make" in 
+that directory.
+
+Nachos executables will be created in the directories network/  threads/   vm/ 
+filesys/ userprog/. Based on the stage in which you are currently working, 
+cd to the directory and execute nachos.
+
+Read threads/main.cc to understand the command line options supported by Nachos.
+Read the Makefile.* in the Nachos directory to see how the source is compiled.
+
+Compiling
+=========
+The Nachos code directory includes several subdirectories with source code 
+for different pieces of the Nachos system. The subdirectories include 
+Makefiles that allow you to automatically build the right
+components for specific assignments using the make command.
+
+Most relevant directories will be threads/ and userprog/ 
+
+If you type make in one of these directories, it will execute a sequence of
+commands to compile and link Nachos, yielding an executable program called 
+nachos in that directory. 
+
+All of your testing will be done by running these nachos executables built 
+from your modified Nachos code. You should study the Makefiles to understand 
+how dependency identification and recompilation work.
+
+The dependency information determines which .cc files are rebuilt when a given
+.h file changes. The dependency lines in each subdirectory’s Makefile (e.g.,
+nachos/threads/Makefile) are created automatically using the make depend 
+facility. 
+
+For example, if you type cd threads; make depend, 
+this will regenerate the dependency information in the threads/Makefile . It 
+is extremely important to keep your dependency information up to date.
+
+Debugging
+=========
+1. Use printf
+2. Standard debuggers like gdb
+3. Use DEBUG primitive provided by Nachos.
+
+Searching
+=========
+1. Doxygen pages for nachos 3.4 is available at Athena. Search facility is 
+   available there.
+2. One can also use grep to search for strings in a directory tree.
+   Eg: 
+   $  pwd
+   /home/guest/nachos-3.4
+   $  grep -nr DEBUG code/
+
+   ... shows all files in the directory code/ that contains DEBUG along with 
+   their line numbers. This is very useful sometimes.
+
+Known Issues
+============
+1. Compilation can show weired errors if you are running make from an NTFS/FAT
+   filesystem. Better compile the source from a ext2/3/4 partition.
+
+Some useful links
+=================
+http://people.cs.uchicago.edu/~odonnell/OData/Courses/CS230/NACHOS/
+http://www.cs.duke.edu/~chase/cps110-archive/nachos-guide/
+http://www.cs.washington.edu/homes/tom/cs162sp95/
+http://cseweb.ucsd.edu/classes/fa00/cse120/
+
+
