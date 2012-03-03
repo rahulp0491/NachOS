@@ -29,6 +29,7 @@
 #define SC_Close	8
 #define SC_Fork		9
 #define SC_Yield	10
+#define SC_Print	11
 
 #ifndef IN_ASM
 
@@ -45,6 +46,9 @@
 /* Stop Nachos, and print out performance stats */
 void Halt();		
  
+/* Prints a string passed as argument
+ */
+void Print(char* str);
 
 /* Address space control operations: Exit, Exec, and Join */
 
@@ -103,7 +107,7 @@ void Write(char *buffer, int size, OpenFileId id);
  * characters to read, return whatever is available (for I/O devices, 
  * you should always wait until you can return at least one character).
  */
-int Read(char *buffer, int size, OpenFileId id);
+void Read(char *buffer, int size, OpenFileId id);
 
 /* Close the file, we're done reading and writing to it. */
 void Close(OpenFileId id);
