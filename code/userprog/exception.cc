@@ -59,26 +59,26 @@
 
 void updatePC(){
 
-		// Note that we have to maintain three PC registers, 
-		// namely : PCReg, NextPCReg, PrevPCReg. 
-		// (See machine/machine.cc, machine/machine.h) for more details.
-		int pc, nextpc, prevpc;
+	// Note that we have to maintain three PC registers, 
+	// namely : PCReg, NextPCReg, PrevPCReg. 
+	// (See machine/machine.cc, machine/machine.h) for more details.
+	int pc, nextpc, prevpc;
 
-		// Read PCs
-		prevpc = machine->ReadRegister(PrevPCReg);
-		pc = machine->ReadRegister(PCReg);
-		nextpc = machine->ReadRegister(NextPCReg);
+	// Read PCs
+	prevpc = machine->ReadRegister(PrevPCReg);
+	pc = machine->ReadRegister(PCReg);
+	nextpc = machine->ReadRegister(NextPCReg);
 
-		// Update PCs
-		prevpc = pc;
-		pc = nextpc;
-		nextpc = nextpc + 4;	// PC incremented by 4 in MIPS
+	// Update PCs
+	prevpc = pc;
+	pc = nextpc;
+	nextpc = nextpc + 4;	// PC incremented by 4 in MIPS
 
-		// Write back PCs
-		machine->WriteRegister(PrevPCReg, prevpc);
-		machine->WriteRegister(PCReg, pc);
-		machine->WriteRegister(NextPCReg, nextpc);
-	}
+	// Write back PCs
+	machine->WriteRegister(PrevPCReg, prevpc);
+	machine->WriteRegister(PCReg, pc);
+	machine->WriteRegister(NextPCReg, nextpc);
+}
 
 void ExceptionHandler(ExceptionType which) {
 	int type = machine->ReadRegister(2);
