@@ -157,7 +157,7 @@ void ExceptionHandler(ExceptionType which) {
 			}
 			break;
 
-			case SC_Write:{
+			case SC_Write: {
 				DEBUG('a', "Write() system call invoked \n");
 				OpenFileId id;
 				id = machine->ReadRegister(6);
@@ -168,7 +168,7 @@ void ExceptionHandler(ExceptionType which) {
 				char buf[BUF_SIZE];
 				buf[BUF_SIZE - 1] = '\0';               // For safety.
 
-				do{
+				do {
 					// Invoke ReadMem to read the contents from user space
 
 					machine->ReadMem(vaddr, sizeof(char), (int*)(buf+sizeread)); 
@@ -181,7 +181,8 @@ void ExceptionHandler(ExceptionType which) {
 
 				size--;
 				DEBUG('a', "Size of string = %d", size);
-				write(id, buf, size);
+				buf[size] = '\0';
+				write(id, buf, size+1);
 				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
 				DEBUG('a', "PC updated \n");
@@ -196,7 +197,7 @@ void ExceptionHandler(ExceptionType which) {
 				int vaddr = machine->ReadRegister(4);
 					
 				char buf[BUF_SIZE];
-				read(id, buf, size);
+				int actsize = read(id, buf, size);
 					
 				int sizewritten = 0;
 
@@ -209,15 +210,16 @@ void ExceptionHandler(ExceptionType which) {
 					vaddr+=sizeof(char);    
 					sizewritten++;
 
-				} while( size < (BUF_SIZE - 1) && sizewritten < size);
-				DEBUG('a', "Size of string = %d", size);
+				} while( actsize < (BUF_SIZE - 1) && sizewritten <= actsize);
+				DEBUG('a', "Size of string = %d", actsize);
+				machine->WriteRegister(2, actsize);
 				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
 				DEBUG('a', "PC updated \n");
 			}
 			break;
 			
-			case SC_Close:{
+			case SC_Close: {
 				DEBUG('a', "Close() system call invoked \n");
 				OpenFileId id;
 				id = machine->ReadRegister(4);
