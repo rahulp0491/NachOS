@@ -181,7 +181,6 @@ void ExceptionHandler(ExceptionType which) {
 
 				size--;
 				DEBUG('a', "Size of string = %d", size);
-				buf[size] = '\0';
 				write(id, buf, size+1);
 				bzero(buf, sizeof(char)*BUF_SIZE);  // Zeroing the buffer.
 				updatePC();
