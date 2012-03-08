@@ -182,11 +182,24 @@ class Machine {
     TranslationEntry *pageTable;
     unsigned int pageTableSize;
 
+// to find if the frame is mapped
+	bool isFrameArrayMapped ();
+
+// set frame to mapped
+	void mapFrame (int frame);
+
+// unset frame
+	void unmapFrame (int frame);
+
+// get next unmapped frame
+	int getNextFrame ();
+	
   private:
     bool singleStep;		// drop back into the debugger after each
 				// simulated instruction
     int runUntilTime;		// drop back into the debugger when simulated
 				// time reaches this value
+	bool isFrameAllocated [NumPhysPages];
 };
 
 extern void ExceptionHandler(ExceptionType which);
