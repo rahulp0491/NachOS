@@ -106,16 +106,16 @@ class Instruction {
 
 class Machine {
   public:
-    Machine(bool debug);	// Initialize the simulation of the hardware
+	Machine(bool debug);	// Initialize the simulation of the hardware
 				// for running user programs
-    ~Machine();			// De-allocate the data structures
+	~Machine();			// De-allocate the data structures
 
 // Routines callable by the Nachos kernel
-    void Run();	 		// Run a user program
+	void Run();	 		// Run a user program
 
-    int ReadRegister(int num);	// read the contents of a CPU register
+	int ReadRegister(int num);	// read the contents of a CPU register
 
-    void WriteRegister(int num, int value);
+	void WriteRegister(int num, int value);
 				// store a value into a CPU register
 
 
@@ -123,28 +123,28 @@ class Machine {
 
     void OneInstruction(Instruction *instr); 	
     				// Run one instruction of a user program.
-    void DelayedLoad(int nextReg, int nextVal);  	
+	void DelayedLoad(int nextReg, int nextVal);  	
 				// Do a pending delayed load (modifying a reg)
-    
-    bool ReadMem(int addr, int size, int* value);
-    bool WriteMem(int addr, int size, int value);
+
+	bool ReadMem(int addr, int size, int* value);
+	bool WriteMem(int addr, int size, int value);
     				// Read or write 1, 2, or 4 bytes of virtual 
 				// memory (at addr).  Return FALSE if a 
 				// correct translation couldn't be found.
     
-    ExceptionType Translate(int virtAddr, int* physAddr, int size,bool writing);
+	ExceptionType Translate(int virtAddr, int* physAddr, int size,bool writing);
     				// Translate an address, and check for 
 				// alignment.  Set the use and dirty bits in 
 				// the translation entry appropriately,
     				// and return an exception code if the 
 				// translation couldn't be completed.
 
-    void RaiseException(ExceptionType which, int badVAddr);
+	void RaiseException(ExceptionType which, int badVAddr);
 				// Trap to the Nachos kernel, because of a
 				// system call or other exception.  
 
-    void Debugger();		// invoke the user program debugger
-    void DumpState();		// print the user CPU and memory state 
+	void Debugger();		// invoke the user program debugger
+	void DumpState();		// print the user CPU and memory state 
 
 
 // Data structures -- all of these are accessible to Nachos kernel code.
@@ -153,9 +153,9 @@ class Machine {
 // Note that *all* communication between the user program and the kernel 
 // are in terms of these data structures.
 
-    char *mainMemory;		// physical memory to store user program,
+	char *mainMemory;		// physical memory to store user program,
 				// code and data, while executing
-    int registers[NumTotalRegs]; // CPU registers, for executing user programs
+	int registers[NumTotalRegs]; // CPU registers, for executing user programs
 
 
 // NOTE: the hardware translation of virtual addresses in the user program
@@ -176,10 +176,10 @@ class Machine {
 // Thus the TLB pointer should be considered as *read-only*, although 
 // the contents of the TLB are free to be modified by the kernel software.
 
-    TranslationEntry *tlb;		// this pointer should be considered 
+	TranslationEntry *tlb;		// this pointer should be considered 
 					// "read-only" to Nachos kernel code
 
-    TranslationEntry *pageTable;
+	TranslationEntry *pageTable;
     unsigned int pageTableSize;
 
 // to find if the frame is mapped
